@@ -18,8 +18,18 @@ start(function(){
   for (var i = 0; i < 5; i++){
 
     stars[i].addEventListener("click", function(event){
-      console.log("click");
+      //get Url of the product corresponding with the rating
+      productUrl = event.target.parentElement.getAttribute('url');
+      //get product id from productUrl
+      productId = productUrl.substring(productUrl.lastIndexOf('/') + 1)
       rating = parseInt(event.target.getAttribute('id')) + 1;
+
+      //submit data to REST server
+      $.ajax({
+        type: "POST",
+        url: productUrl,
+        data: ({ "pid" : productId, "productRating" : rating })
+      });
 
       for (j = 0; j < 5; j++){
         stars[j].classList.remove("hover");
